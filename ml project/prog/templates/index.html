@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Fake News Prediction</title>
+    <style>
+         * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
+            }
+            h1 {
+                font-family: "Playfair Display", serif;
+      font-optical-sizing: auto;
+     font-size: 50px;
+            }
+    
+    
+            body {
+                min-height: 100vh;
+                color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url('https://cdn.pixabay.com/photo/2016/02/01/00/56/news-1172463_1280.jpg')!important;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+    
+            .container {
+                padding: 15px;
+                max-width: 500px;
+                border-radius: 15px;
+                background: rgba(0, 0, 0, 0.8);
+                text-align: center;
+                box-shadow: 0 0 20px rgba(31, 168, 154, 0.8);
+                animation: fadeIn 1s ease;
+            }
+    
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+    
+            h1 {
+                font-size: 2.5em;
+                margin: 20px 0px;
+                text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8),
+                1px 2px 3px rgba(31, 168, 154, 0.8),
+                1px 3px 4px rgba(31, 168, 154, 0.8),
+                1px 4px 5px rgba(255, 255, 255, 0.8),
+                1px 5px 6px rgba(31, 168, 154, 0.8);
+            }
+    
+            label {
+                font-size: 1.2em;
+            }
+    
+            .input-container {
+                position: relative;
+                margin: 0 auto;
+                width: 70%; /* Adjusted width */
+                margin-bottom: 20px;
+            }
+    
+            input {
+                width: 105%;
+                padding: 15px;
+                margin-top: 8px;
+                border:1px solid rgb(128, 126, 126);
+                border-radius: 5px;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: #fff;
+                font-size: 20px;
+                transition: box-shadow 0.3s ease;
+                resize: vertical; /* Allowing vertical resizing */
+            }
+    
+            input:focus,
+            input:focus {
+                border-bottom: 1px solid white;
+                outline: none;
+                box-shadow: 0 0 10px rgba(145, 145, 146, 0.5);
+            }
+            .clear-btn1 {
+                position: absolute;
+                top: 18%;
+                right: 5px;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: rgba(141, 255, 244, 0.8);
+            }
+    
+            .clear-btn {
+                position: absolute;
+                top: 50%;
+                right: 5px;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: rgba(141, 255, 244, 0.8);
+            }
+    
+            button {
+                background-image: linear-gradient(black,aqua);
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                transition: background-color 0.3s ease;
+            }
+    
+            .input-container:hover textarea {
+                background-color: rgba(31, 168, 255, 0.1);
+            }
+    
+            button:hover {
+                
+                text-decoration-color: black;
+            }
+    
+            .p {
+                margin-top: 20px;
+                font-size: 18px;
+                opacity: 0;
+                animation: fadeIn 1s forwards;
+            }
+    
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+    
+            .loading-container {
+                display: none;
+                align-items: center;
+                justify-content: center;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1001;
+            }
+    
+            .loading-icon {
+                font-size: 40px;
+                color: #0ef;
+                animation: spin 1s infinite linear;
+            }
+    
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+        
+            button {
+                background-color: #a0261e;
+                color: white;
+                padding: 13px 36px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 20px;
+                transition: background-color 0.3s ease;
+                margin-top: 31px;
+            }
+    
+            button:hover {
+                background-color: #33cbe3;
+            }
+    
+            p {
+                margin-top: 20px;
+                font-size: 18px;
+                color: #ccc; /* Prediction text color */
+            }
+    
+            .prediction-real {
+                color: #4caf50;
+            }
+    
+            .prediction-fake {
+                color: #f44336;
+            }
+    
+            .loading-container {
+                display: none;
+                align-items: center;
+                justify-content: center;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1001;
+            }
+    
+            .loading-icon {
+                font-size: 40px;
+                color: #0ef;
+                animation: spin 1s infinite linear;
+            }
+    
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            
+            .progress-container {
+            margin-top: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-bar-container {
+            width: 50%; /* Adjusted width */
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #a0261e, #33cbe3);
+    width: 0; /* Set initial width to 0 */
+    animation: fillAnimation 10s ease;
+}
+
+@keyframes fillAnimation {
+    to {
+        width: var(--fake-percentage);
+    }
+}
+
+
+        .progress-label {
+            color: #fff;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fake News Prediction</h1>
+        <form action="/predict" method="post" id="predictionForm">
+            <div class="input-container">
+                <input type="text" id="author" name="author" required placeholder="Enter Author:">  
+                <span class="clear-btn" onclick="clearInput('author')">✖</span>
+            </div>
+
+            <div class="input-container">
+                <input type="text" id="title" name="title" required style="height: 120px;" placeholder="Enter title of the news:">
+                <span class="clear-btn" onclick="clearInput('title')">✖</span>
+            </div>
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction %}
+        <div id="predictionResult">
+            <p class="prediction-{{ prediction_class }}">{{ prediction }}</p>
+            <div class="progress-container">
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="--fake-percentage: {{ fake_percentage }}%;"></div>
+                    </div>
+                </div>
+                <span class="progress-label">Fake Percentage: {{ '%.1f' % fake_percentage }}%</span>
+            </div>
+        </div>
+        {% endif %}
+     </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></script>
+
+    <script>
+        function clearInput(inputId) {
+            document.getElementById(inputId).value = '';
+        }
+        function hidePredictionResult() {
+        setTimeout(function () {
+            var predictionResult = document.getElementById('predictionResult');
+            if (predictionResult) {
+                predictionResult.style.display = 'none';
+            }
+        }, 10000); // 5000 milliseconds = 5 seconds
+    }
+
+    // Call the hidePredictionResult function when the document is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        hidePredictionResult();
+    });
+        
+    </script>
+</body>
+</html>
